@@ -2,6 +2,7 @@ require 'item_delegator'
 require 'aged_brie'
 require 'backstage_pass'
 require 'sulfuras'
+require 'conjured_item'
 
 class GildedRose
   def initialize(items)

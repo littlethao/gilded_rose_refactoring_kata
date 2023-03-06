@@ -8,6 +8,8 @@ class ItemDelegator < SimpleDelegator
       BackstagePass.new(item)
     elsif item.name == "Sulfuras, Hand of Ragnaros"
       Sulfuras.new(item)
+    elsif item.name == "Conjured Mana Cake"
+      ConjuredItem.new(item)
     else
       new(item)
     end

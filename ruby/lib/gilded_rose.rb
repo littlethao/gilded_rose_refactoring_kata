@@ -1,14 +1,16 @@
 require 'item_delegator'
+require 'aged_brie'
+require 'backstage_pass'
+require 'sulfuras'
 
 class GildedRose
-
   def initialize(items)
     @items = items
   end
 
   def update_quality()
     @items.each do |item|
-      ItemDelegator.new(item).update
+      ItemDelegator.lookup(item).update
     end
   end
 end

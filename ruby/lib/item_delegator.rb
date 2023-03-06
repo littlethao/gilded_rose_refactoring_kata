@@ -1,40 +1,35 @@
 require 'delegate'
  
 class ItemDelegator < SimpleDelegator
+  def self.lookup(item)
+    if item.name == "Aged Brie"
+      AgedBrie.new(item)
+    elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
+      BackstagePass.new(item)
+    elsif item.name == "Sulfuras, Hand of Ragnaros"
+      Sulfuras.new(item)
+    else
+      new(item)
+    end
+  end
+
   def update
     return if self.name == "Sulfuras, Hand of Ragnaros"
-
-    if self.name == "Aged Brie"
-      if self.quality < 50
-        increase_quality_on(self)
-      end
-    elsif self.name == "Backstage passes to a TAFKAL80ETC concert"
-      if self.quality < 50
-        increase_quality_on(self)
-        if self.sell_in < 11
-          increase_quality_on(self)
-        end
-        if self.sell_in < 6
-          increase_quality_on(self)
-        end
-      end
-
-      if self.sell_in < 0
-        self.quality = self.quality - self.quality
-      end
-    else
-      if self.quality > 0
-        decrease_quality_on(self)
-        if self.sell_in < 0 
-          decrease_quality_on(self)
-        end
-      end
-    end
-
-    self.sell_in -= 1
+      
+    update_quality
+    decrease_sell_in_value_on(self)
   end
 
   private
+
+  def update_quality
+    if self.quality > 0
+      decrease_quality_on(self)
+      if self.sell_in < 0 
+        decrease_quality_on(self)
+      end
+    end
+  end
 
   def decrease_quality_on(item)
     item.quality -= 1
@@ -42,5 +37,9 @@ class ItemDelegator < SimpleDelegator
 
   def increase_quality_on(item)
     item.quality += 1
+  end
+
+  def decrease_sell_in_value_on(item)
+    item.sell_in -= 1
   end
 end
